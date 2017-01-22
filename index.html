@@ -1,19 +1,52 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
+<html ng-app="copier" ng-controller="copyCtrl as ctrl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Code Propagator</title>
+  <link rel="stylesheet" href="libraries/photon-0.1.2-dist/css/photon.min.css" </head>
+<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="window">
+      <!-- .toolbar-header sits at the top of your app -->
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Code Propagator</h1>
+      </header>
+      <div class="window-content" >
+        <div class="pane-group">
+          <div class="pane-md sidebar" style="padding-left:15px; min-width: 25%;">
+            <div class="folder-select-group">
+              <h3>Source</h3>
+              <p>{{ ctrl.sourceFolder}}</p>
+              <button class="btn btn-default" ng-click="ctrl.sourceOpenClick()">Select</button>
+            </div>
+            <div class="folder-select-group">
+              <h3>Destination</h3>
+              <p id="destinationSelectedFolder"></p>
+              <button class="btn btn-default" id="destinationFolderSelect">Select</button>
+            </div>
+          </div>
+          <div class="pane">
+            <div class="pane-group">
+              <div class="pane">
+                Source
+                <ul></ul>
+              </div>
+              <div class="pane">
+                Destination
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="toolbar toolbar-footer">
+        <button class="btn btn-large btn-negative pull-right">Push</button>
+      </footer>
+    </div>
   </body>
 
-  <script>
-    // You can also require other files to run in this process
-    require('./renderer.js')
-  </script>
 </html>
+<script>
+  // You can also require other files to run in this process
+  require('./renderer.js')
+</script>
