@@ -17,6 +17,12 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "bootstrap": "^3.3.7",
+    "electron": "^1.4.1",
+    "electron-prebuilt": "^1.4.13"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.2.2"
   }
 }
