@@ -3,14 +3,23 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
-const dialog = electron.dialog
+const dialog = electron.dialog;
+
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
+
 exports.selectDirectory = function(callback) {
   dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory']
   }, selectedFiles => callback(selectedFiles));
-}
-const path = require('path')
-const url = require('url')
+};
+
+exports.getDirectoriesFromFolder = function(srcpath){
+   return fs.readdirSync(srcpath).filter(function(file) {
+    return fs.statSync(path.join(srcpath, file)).isDirectory();
+  });
+};
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
