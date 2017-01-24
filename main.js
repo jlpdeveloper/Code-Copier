@@ -1,6 +1,6 @@
 const electron = require('electron')
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 const dialog = electron.dialog;
@@ -9,25 +9,54 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 
-exports.selectDirectory = function(callback) {
+exports.selectDirectory = function (callback) {
   dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory']
   }, selectedFiles => callback(selectedFiles));
 };
 
-exports.getDirectoriesFromFolder = function(srcpath){
-   return fs.readdirSync(srcpath).filter(function(file) {
+exports.getDirectoriesFromFolder = function (srcpath) {
+  return fs.readdirSync(srcpath).filter(function (file) {
     return fs.statSync(path.join(srcpath, file)).isDirectory();
   });
 };
+
+exports.getDirectoryStructure = function (srcpath) {
+  
+  return readDirectory(srcpath);
+};
+
+function readDirectory(srcpath){
+  var children = fs.readdirSync(srcpath);
+  var folderStructure = [];
+   var item = {
+        name: srcpath.split('\\').pop(),
+        files: [],
+        directories: []
+    };
+  for (child of children) {
+   
+    if(fs.statSync(path.join(srcpath, child)).isDirectory()){
+     item.directories.push(readDirectory(path.join(srcpath, child)));
+    }
+    else{
+        item.files.push(child);
+    }
+  }
+  
+  return item;
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1600, height: 1000})
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -37,7 +66,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+ // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
