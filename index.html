@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>Code Propagator</title>
   <link rel="stylesheet" href="libraries/photon-0.1.2-dist/css/photon.min.css" </head>
-<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="libraries/angular/angular.min.js"></script>
   <body>
     <div class="window">
       <!-- .toolbar-header sits at the top of your app -->
@@ -14,15 +14,15 @@
       </header>
       <div class="window-content" >
         <div class="pane-group">
-          <div class="pane-md sidebar" style="padding-left:15px; min-width: 25%;">
+          <div class="pane-md sidebar" style="padding-left:15px; min-width: 25%;max-width: 30%;">
             <div class="folder-select-group">
               <h3>Source</h3>
-              <p>{{ ctrl.sourceFolder}}</p>
+              <p style="white-space:normal; word-break: break-word;">{{ ctrl.sourceFolder}}</p>
               <button class="btn btn-default" ng-click="ctrl.sourceOpenClick()">Select</button>
             </div>
             <div class="folder-select-group">
               <h3>Destination</h3>
-              <p id="destinationSelectedFolder">{{ctrl.destinationFolder}}</p>
+              <p style="white-space:normal; word-break: break-word;">{{ctrl.destinationFolder}}</p>
               <button class="btn btn-default" ng-click="ctrl.destinationOpenClick()">Select</button>
             </div>
           </div>
@@ -30,13 +30,23 @@
             <div class="pane-group">
               <div class="pane">
                 <h4>Source</h4>
-                <ul class="list-group"></ul>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="directory in ctrl.sourceDirectory.directories">
+                          <span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory.name}}
+                          <!--<span class="icon icon-down-open pull-right" onclick="createDirectoryLevel(directory, this)"></span>-->
+                    </li>
+                </ul>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="file in ctrl.sourceDirectory.files">
+                          <span class="icon icon-doc"></span>&nbsp;&nbsp;{{file}}
+                    </li>
+                </ul>
               </div>
               <div class="pane">
                 <h4>Destination</h4>
                 <ul class="list-group">
                   <li class="list-group-item" ng-repeat="directory in ctrl.destinationDirectories">
-                    {{directory}}
+                    <span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory}}
                   </li>
                 </ul>
               </div>

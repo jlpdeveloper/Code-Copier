@@ -6,31 +6,41 @@ const electron = require('electron');
 const remote = electron.remote
 const mainProcess = remote.require('./main');
 
+function createDirectoryLevel(directory, caller) {
+    console.log(directory);
+};
+
 angular.module("copier", []).controller("copyCtrl", function ($scope) {
     var ctrl = this;
     ctrl.sourceFolder = "Select a source Folder to start";
     ctrl.destinationFolder = "";
     ctrl.hasSelectedSource = false;
     ctrl.hasSelectedDestination = false;
-    ctrl.sourceDirectories = [];
+    ctrl.sourceDirectory = {
+        name: "",
+        files: [],
+        directories: []
+    };
     ctrl.destinationDirectories = [];
 
     ctrl.sourceOpenClick = function () {
         mainProcess.selectDirectory(function (files) {
-             ctrl.sourceFolder = files[0];
-             ctrl.hasSelectedSource = true;
-             
-             $scope.$apply();
+            ctrl.sourceFolder = files[0];
+            ctrl.hasSelectedSource = true;
+            ctrl.sourceDirectory = mainProcess.getDirectoryStructure(ctrl.sourceFolder);
+
+            $scope.$apply();
         });
 
     };
+
     ctrl.destinationOpenClick = function () {
         mainProcess.selectDirectory(function (files) {
-             ctrl.destinationFolder = files[0];
-             ctrl.hasSelectedDestination = true;
-             ctrl.destinationDirectories = mainProcess.getDirectoriesFromFolder(ctrl.destinationFolder);
-             console.log(ctrl.destinationDirectories);
-             $scope.$apply();
+            ctrl.destinationFolder = files[0];
+            ctrl.hasSelectedDestination = true;
+            ctrl.destinationDirectories = mainProcess.getDirectoriesFromFolder(ctrl.destinationFolder);
+            console.log(ctrl.destinationDirectories);
+            $scope.$apply();
         });
 
     };
