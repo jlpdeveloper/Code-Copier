@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Code Propagator</title>
-  <link rel="stylesheet" href="libraries/photon-0.1.2-dist/css/photon.min.css" </head>
+  <link rel="stylesheet" href="libraries/photon-0.1.2-dist/css/photon.min.css" /> 
+  <link rel="stylesheet" href="libraries/angular/angular.min.css" /> 
 <script type="text/javascript" src="libraries/angular/angular.min.js"></script>
+</head>
   <body>
     <div class="window">
       <!-- .toolbar-header sits at the top of your app -->
@@ -14,6 +16,7 @@
       </header>
       <div class="window-content" >
         <div class="pane-group">
+          <!-- sidebar for source and destination -->
           <div class="pane-md sidebar" style="padding-left:15px; min-width: 25%;max-width: 30%;">
             <div class="folder-select-group">
               <h3>Source</h3>
@@ -55,7 +58,7 @@
         </div>
       </div>
       <footer class="toolbar toolbar-footer">
-        <button class="btn btn-large btn-negative pull-right">Push</button>
+        <button class="btn btn-large btn-negative pull-right" ng-click=" ctrl.copyToDestination()">Push</button>
       </footer>
     </div>
   </body>
