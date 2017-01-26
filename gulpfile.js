@@ -31,7 +31,7 @@ gulp.task('build-js', [], function () {
 });
 
 gulp.task('build-css', [], function () {
-  gulp.src(['node_modules/angular-material/angular-material.min.css'])
+  gulp.src(['node_modules/angular-material/angular-material.min.css', 'toggleSwitch.css'])
     .pipe(concat('angular.min.css'))
     .pipe(gulp.dest('libraries/angular'));
 
