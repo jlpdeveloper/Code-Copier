@@ -2,18 +2,20 @@
   "name": "CodeCopier",
   "version": "0.0.5",
   "description": "An application that will copy code to all subdirectories of destination",
+  "respository": "https://github.com/jlpdeveloper/Code-Copier",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "author": "Josh Potts",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "devDependencies": {
     "angular": "^1.6.1",
     "bootstrap": "^3.3.7",
     "electron": "^1.4.1",
     "electron-packager": "^8.5.1",
     "electron-prebuilt": "^1.4.13",
+    "electron-winstaller": "^2.5.1",
     "gulp": "^3.9.1",
     "gulp-cli": "^1.2.2",
     "gulp-concat": "^2.6.1",
