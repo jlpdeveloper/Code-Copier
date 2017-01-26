@@ -66,16 +66,13 @@ exports.copyItemToDirectory = function (item, destination) {
  * function to recursively copy and make .bak files for everything
  */
 function copyItemToDirectory(item, destination) {
-
   // dir has now been created, including the directory it is to be placed in
   //push all files to this directory
   for (file of item.files) {
     //cache destinationFile path. we use it alot
     var destinationFilePath = path.join(destination, file);
-   
     //check to see if file exists, if so, mke a bak file
     if (fs.existsSync(destinationFilePath)) {
-      
       fse.copySync(destinationFilePath, destinationFilePath + '.bak')
     }
     //copy new file in
@@ -84,9 +81,7 @@ function copyItemToDirectory(item, destination) {
   //loop thru all directories and copy Item to directory again
   for (directory of item.directories) {
     fse.ensureDirSync(path.join(destination, directory.name));
-    
-      copyItemToDirectory(directory, path.join(destination, directory.name))
-    ;
+      copyItemToDirectory(directory, path.join(destination, directory.name));
   }
 
 
@@ -111,7 +106,8 @@ function createWindow() {
   }))
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  //JLP 1/25/17 removed dev tools
+ // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
