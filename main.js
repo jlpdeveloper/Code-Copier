@@ -26,15 +26,15 @@ exports.getDirectoriesFromFolder = function (srcpath) {
 /**
  * public function to read  directory structure
  */
-exports.getDirectoryStructure = function (srcpath) {
+exports.getDirectoryStructure = function (srcpath, ignoreNodeModules) {
   //call private method of readDirectory
-  return readDirectory(srcpath);
+  return readDirectory(srcpath, ignoreNodeModules);
 };
 /**
  * function to read information about a directory
  * creates sub items about each subdirectory recursively
  */
-function readDirectory(srcpath) {
+function readDirectory(srcpath, ignoreNodeModules) {
   //get all children of path sent in
   var children = fs.readdirSync(srcpath);
   //create main item to return
@@ -49,7 +49,9 @@ function readDirectory(srcpath) {
   for (child of children) {
     //if its  directory, call this method again and add to directoreis of main item
     if (fs.statSync(path.join(srcpath, child)).isDirectory()) {
-      item.directories.push(readDirectory(path.join(srcpath, child)));
+      if (!(ignoreNodeModules && child === 'node_modules')) {
+        item.directories.push(readDirectory(path.join(srcpath, child), ignoreNodeModules));
+      }
     } else {
       //else push file name
       item.files.push(child);
@@ -81,7 +83,7 @@ function copyItemToDirectory(item, destination) {
   //loop thru all directories and copy Item to directory again
   for (directory of item.directories) {
     fse.ensureDirSync(path.join(destination, directory.name));
-      copyItemToDirectory(directory, path.join(destination, directory.name));
+    copyItemToDirectory(directory, path.join(destination, directory.name));
   }
 
 
@@ -107,7 +109,7 @@ function createWindow() {
 
   // Open the DevTools.
   //JLP 1/25/17 removed dev tools
- // mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
