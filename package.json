@@ -1,5 +1,5 @@
 {
-  "name": "CodeCopier",
+  "name": "code-propagator",
   "version": "0.0.5",
   "description": "An application that will copy code to all subdirectories of destination",
   "respository": "https://github.com/jlpdeveloper/Code-Copier",
