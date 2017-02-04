@@ -13,6 +13,7 @@
   <div class="window">
    
     <div class="window-content">
+      
       <div class="pane-group">
         <!-- sidebar for source and destination -->
         <div class="pane-md sidebar" style="padding-left:15px; min-width: 25%;max-width: 30%;">
@@ -63,7 +64,8 @@
               <h4>Destination</h4>
               <ul class="list-group">
                 <li class="list-group-item" ng-repeat="directory in ctrl.destinationDirectories">
-                  <span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory}}
+                  <span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory.name}}
+                  <input type="checkbox" ng-model="directory.apply" class="pull-right" />
                 </li>
               </ul>
             </div>
@@ -71,7 +73,9 @@
         </div>
       </div>
     </div>
+     <md-progress-linear ng-show="ctrl.isCopying" md-mode="indeterminate"></md-progress-linear>
     <footer class="toolbar toolbar-footer">
+      <span ng-show="ctrl.isCopying" class="processing-message">Processing</span>
       <button class="btn btn-large btn-negative pull-right" ng-click=" ctrl.copyToDestination()">Push</button>
     </footer>
   </div>

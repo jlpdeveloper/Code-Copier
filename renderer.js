@@ -7,7 +7,7 @@ const remote = electron.remote
 const mainProcess = remote.require('./main');
 const path = require('path');
 //define the angular module for this process
-angular.module("copier", []).controller("copyCtrl", function ($scope) {
+angular.module("copier", ['ngMaterial']).controller("copyCtrl", function ($scope) {
     //setup properties of controller
     var ctrl = this;
     ctrl.sourceFolder = "Select a source Folder to start";
@@ -16,6 +16,7 @@ angular.module("copier", []).controller("copyCtrl", function ($scope) {
     ctrl.hasSelectedDestination = false;
     ctrl.top_level_destination_only = false;
     ctrl.ignore_node_modules = true;
+    ctrl.isCopying = false;
     //source directory is an object, while destination is list of strings
     ctrl.sourceDirectory = {
         name: "",
@@ -63,8 +64,10 @@ angular.module("copier", []).controller("copyCtrl", function ($scope) {
         //make sure source and destination have been selected
         if (ctrl.hasSelectedSource) {
             if (ctrl.hasSelectedDestination) {
+                console.log(ctrl.destinationDirectories);
                 //confirm user really wants to do this
                 if (confirm('Are you sure you wish to copy the source to all destinations?')) {
+                    ctrl.isCopying = true;
                     //if we want to copy to top level only, lets just copy to destination folder
                     if (ctrl.top_level_destination_only) {
                         //call copy item from main process
@@ -72,13 +75,18 @@ angular.module("copier", []).controller("copyCtrl", function ($scope) {
                     } else {
                         //loop thru all directories in destination directory
                         for (var directory of ctrl.destinationDirectories) {
-                            //call copy item from main process
-                            mainProcess.copyItemToDirectory(ctrl.sourceDirectory, path.join(ctrl.destinationFolder, directory));
+                            //if directory is marked for copy application, do it
+                            if (directory.apply) {
+                                //call copy item from main process
+                                mainProcess.copyItemToDirectory(ctrl.sourceDirectory, path.join(ctrl.destinationFolder, directory.name));
+                            }
                         }
                     }
+                    //alert user we're done
+                    alert('Files have been propagated');
+                    ctrl.isCopying = false;
                 }
-                //alert user we're done
-                alert('Files have been propagated');
+
             } else {
                 //else ask user to select destination
                 alert('Please select a destination');
@@ -99,7 +107,7 @@ angular.module("copier", []).controller("copyCtrl", function ($scope) {
                 files: ['Please Wait, Reparsing folder structure'],
                 directories: []
             };
-             //update scope
+            //update scope
             $scope.$apply();
             //reparse source folder
             ctrl.sourceDirectory = mainProcess.getDirectoryStructure(ctrl.sourceFolder, ctrl.ignore_node_modules);

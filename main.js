@@ -19,9 +19,17 @@ exports.selectDirectory = function (callback) {
  * function go read all directories from a root directory
  */
 exports.getDirectoriesFromFolder = function (srcpath) {
-  return fs.readdirSync(srcpath).filter(function (file) {
+  var directories = fs.readdirSync(srcpath).filter(function (file) {
     return fs.statSync(path.join(srcpath, file)).isDirectory();
   });
+  var returnArray = [];
+  for(var directory of directories){
+      returnArray.push({
+        name: directory,
+        apply: true
+      });
+  }
+  return returnArray;
 };
 /**
  * public function to read  directory structure
@@ -109,14 +117,15 @@ function createWindow() {
 
   // Open the DevTools.
   //JLP 1/25/17 removed dev tools
-  // mainWindow.webContents.openDevTools()
+   mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null
+    mainWindow = null;
+    app.quit();
   })
 }
 
@@ -132,7 +141,11 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
+app.on('before-quit', () => {
+    mainWindow.removeAllListeners('close');
+    mainWindow.close();
+});
 
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
