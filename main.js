@@ -117,7 +117,7 @@ function createWindow() {
 
   // Open the DevTools.
   //JLP 1/25/17 removed dev tools
-   mainWindow.webContents.openDevTools()
+ //  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
