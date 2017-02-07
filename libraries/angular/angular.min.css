@@ -62,3 +62,15 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+.apply-icon{
+    color: #c0c0c0;
+}
+.apply-icon.selected{
+    color:#42bff4;
+  
+}
+
+.directory-divider{
+    border-top: 1px solid #808080;
+    margin-top: 5px;
+}

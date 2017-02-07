@@ -11,22 +11,11 @@
 
 <body>
   <div class="window">
-   
     <div class="window-content">
-      
       <div class="pane-group">
         <!-- sidebar for source and destination -->
-        <div class="pane-md sidebar" style="padding-left:15px; min-width: 25%;max-width: 30%;">
-          <div class="folder-select-group">
-            <h3>Source</h3>
-            <p style="white-space:normal; word-break: break-word;">{{ ctrl.sourceFolder}}</p>
-            <button class="btn btn-default" ng-click="ctrl.sourceOpenClick()">Select</button>
-          </div>
-          <div class="folder-select-group">
-            <h3>Destination</h3>
-            <p style="white-space:normal; word-break: break-word;">{{ctrl.destinationFolder}}</p>
-            <button class="btn btn-default" ng-click="ctrl.destinationOpenClick()">Select</button>
-          </div>
+        <div class="pane-md sidebar">
+          <h4>Options</h4>
           <div class="copy-options" style="margin-top:20px;">
             <div>
               <label class="switch">
@@ -48,6 +37,10 @@
           <div class="pane-group">
             <div class="pane">
               <h4>Source</h4>
+              
+              <p style="white-space:normal; word-break: break-word;">{{ ctrl.sourceFolder}}</p>
+             <button class="btn btn-default" ng-click="ctrl.sourceOpenClick()">Select</button>
+             <div class="directory-divider"></div>
               <ul class="list-group">
                 <li class="list-group-item" ng-repeat="directory in ctrl.sourceDirectory.directories">
                   <span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory.name}}
@@ -62,10 +55,14 @@
             </div>
             <div class="pane">
               <h4>Destination</h4>
-              <ul class="list-group">
-                <li class="list-group-item" ng-repeat="directory in ctrl.destinationDirectories">
-                  <span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory.name}}
-                  <input type="checkbox" ng-model="directory.apply" class="pull-right" />
+              <p style="white-space:normal; word-break: break-word;">{{ctrl.destinationFolder}}</p>
+              <button class="btn btn-default" ng-click="ctrl.destinationOpenClick()">Select</button>
+             <div class="directory-divider"></div>
+              <ul class="list-group" ng-show="!ctrl.top_level_destination_only">
+                <li class="list-group-item" ng-repeat="directory in ctrl.destinationDirectories" ng-click="ctrl.toggleItemApplication(directory)">
+                  <span><span class="icon icon-folder"></span>&nbsp;&nbsp;{{directory.name}}</span>
+                  <!--<input type="checkbox" ng-model="directory.apply" class="pull-right" />-->
+                  <span class="icon icon-check pull-right apply-icon" ng-class="{selected: directory.apply}"></span>
                 </li>
               </ul>
             </div>
@@ -73,7 +70,7 @@
         </div>
       </div>
     </div>
-     <md-progress-linear ng-show="ctrl.isCopying" md-mode="indeterminate"></md-progress-linear>
+    <md-progress-linear ng-show="ctrl.isCopying" md-mode="indeterminate"></md-progress-linear>
     <footer class="toolbar toolbar-footer">
       <span ng-show="ctrl.isCopying" class="processing-message">Processing</span>
       <button class="btn btn-large btn-negative pull-right" ng-click=" ctrl.copyToDestination()">Push</button>
