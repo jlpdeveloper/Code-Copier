@@ -10,8 +10,8 @@ const path = require('path');
 angular.module("copier", ['ngMaterial']).controller("copyCtrl", function ($scope) {
     //setup properties of controller
     var ctrl = this;
-    ctrl.sourceFolder = "Select a source Folder to start";
-    ctrl.destinationFolder = "";
+    ctrl.sourceFolder = " ";
+    ctrl.destinationFolder = " ";
     ctrl.hasSelectedSource = false;
     ctrl.hasSelectedDestination = false;
     ctrl.top_level_destination_only = false;
@@ -108,11 +108,15 @@ angular.module("copier", ['ngMaterial']).controller("copyCtrl", function ($scope
                 directories: []
             };
             //update scope
-            $scope.$apply();
+            //$scope.$apply();
             //reparse source folder
             ctrl.sourceDirectory = mainProcess.getDirectoryStructure(ctrl.sourceFolder, ctrl.ignore_node_modules);
             //update scope
-            $scope.$apply();
+          //  $scope.$apply();
         }
+    };
+    /**function to toggle apply property of item sent in */
+    ctrl.toggleItemApplication = function(item){
+        item.apply = !item.apply;
     }
 });
